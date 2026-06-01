@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +20,7 @@ public class SalonController {
 
     private final SalonService salonService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<SalonDTO> createSalon(@RequestBody SalonDTO salonDTO) {
         UserDTO user = new UserDTO(); // This should be replaced with actual user retrieval logic
         user.setId(1L); // Example user ID, replace with actual user ID
@@ -29,4 +28,48 @@ public class SalonController {
         SalonDTO responseSalonDTO = SalonMapper.mapToDTO(newSalon);
         return ResponseEntity.ok(responseSalonDTO);
     }
+
+    @PatchMapping("/{salonId}")
+    public ResponseEntity<SalonDTO> updateSalon(@RequestBody SalonDTO salonDTO,
+                                                @PathVariable Long salonId) throws Exception {
+        UserDTO user = new UserDTO(); // This should be replaced with actual user retrieval logic
+        user.setId(1L); // Example user ID, replace with actual user ID
+        Salon updateSalon = salonService.updateSalon(salonDTO, user, salonId);
+        SalonDTO responseSalonDTO = SalonMapper.mapToDTO(updateSalon);
+        return ResponseEntity.ok(responseSalonDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<SalonDTO>> getSalons(){
+        List<Salon> salons = salonService.getAllSalons();
+        List<SalonDTO> salonDTOs = salons.stream().map(SalonMapper::mapToDTO
+                ).toList();
+        return ResponseEntity.ok(salonDTOs);
+    }
+
+    @GetMapping("/{salonId}")
+    public ResponseEntity<SalonDTO> getSalonById(@PathVariable Long salonId) throws Exception {
+        Salon salon = salonService.getSalonById(salonId);
+        SalonDTO responseSalonDTO = SalonMapper.mapToDTO(salon);
+        return ResponseEntity.ok(responseSalonDTO);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<SalonDTO>> searchSalon(@RequestParam("city") String city) throws Exception {
+        List<Salon> salons = salonService.searchSalonByCityName(city);
+        List<SalonDTO> salonDTOs = salons.stream().map(SalonMapper::mapToDTO
+        ).toList();
+        return ResponseEntity.ok(salonDTOs);
+    }
+
+    @GetMapping("/owner")
+    public ResponseEntity<SalonDTO> getSalonByOwnerId() throws Exception {
+        UserDTO user = new UserDTO(); // This should be replaced with actual user retrieval logic
+        user.setId(1L); // Example user ID, replace with actual user ID
+        Salon salon = salonService.getSalonByOwnerId(user.getId());
+        SalonDTO responseSalonDTO = SalonMapper.mapToDTO(salon);
+        return ResponseEntity.ok(responseSalonDTO);
+    }
+
+
 }
