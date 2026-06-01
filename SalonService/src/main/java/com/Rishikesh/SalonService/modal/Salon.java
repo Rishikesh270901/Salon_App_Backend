@@ -17,7 +17,7 @@ public class Salon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;

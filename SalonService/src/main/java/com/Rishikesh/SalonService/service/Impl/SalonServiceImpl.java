@@ -28,14 +28,14 @@ public class SalonServiceImpl implements SalonService {
         newSalon.setOpenTime(salon.getOpenTime());
         newSalon.setCloseTime(salon.getCloseTime());
         newSalon.setImages(salon.getImages());
-        newSalon.setOwnerId(salon.getOwnerId());
+        newSalon.setOwnerId(user.getId());
 
         return salonRepository.save(newSalon);
     }
 
     @Override
-    public Salon updateSalon(SalonDTO salon, UserDTO user, Long SalonId) throws Exception {
-        Salon existingSalon = salonRepository.findById(SalonId).orElseThrow(() -> new Exception("Salon not found with id: " + SalonId));
+    public Salon updateSalon(SalonDTO salon, UserDTO user, Long salonId) throws Exception {
+        Salon existingSalon = salonRepository.findById(salonId).orElseThrow(() -> new Exception("Salon not found with id: " + salonId));
 
         if(salon.getOwnerId().equals(user.getId())) {
             existingSalon.setCity(salon.getCity());
@@ -49,7 +49,7 @@ public class SalonServiceImpl implements SalonService {
             existingSalon.setOwnerId(user.getId());
             return salonRepository.save(existingSalon);
         }
-        throw new Exception("Salon not found with id: " + SalonId);
+        throw new Exception("Salon not found with id: " + salonId);
     }
 
     @Override
@@ -58,8 +58,8 @@ public class SalonServiceImpl implements SalonService {
     }
 
     @Override
-    public Salon getSalonById(Long SalonId) throws Exception {
-        Salon salon = salonRepository.findById(SalonId).orElse(null);
+    public Salon getSalonById(Long salonId) throws Exception {
+        Salon salon = salonRepository.findById(salonId).orElse(null);
         if(salon==null){
             throw new Exception("Salon not exist");
         }

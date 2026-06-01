@@ -8,6 +8,7 @@ public class SalonMapper {
     public static SalonDTO mapToDTO(Salon salon){
         SalonDTO salonDTO = new SalonDTO();
 
+        salonDTO.setId(salon.getId());
         salonDTO.setName(salon.getName());
         salonDTO.setAddress(salon.getAddress());
         salonDTO.setCity(salon.getCity());

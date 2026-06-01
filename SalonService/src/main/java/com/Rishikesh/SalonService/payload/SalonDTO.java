@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 public class SalonDTO {
-    private Long Id;
+    private Long id;
 
     private String name;
 
