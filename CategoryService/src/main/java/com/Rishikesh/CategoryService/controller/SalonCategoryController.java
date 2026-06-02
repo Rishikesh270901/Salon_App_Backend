@@ -19,7 +19,7 @@ public class SalonCategoryController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Category> createCategory(@RequestBody Category category){
         SalonDTO salonDTO = new SalonDTO();
         salonDTO.setId(1L); // Replace with actual salon ID
