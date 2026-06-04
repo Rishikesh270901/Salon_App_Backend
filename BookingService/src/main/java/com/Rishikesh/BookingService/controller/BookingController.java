@@ -4,6 +4,7 @@ package com.Rishikesh.BookingService.controller;
 import com.Rishikesh.BookingService.domain.BookingStatus;
 import com.Rishikesh.BookingService.mapper.BookingMapper;
 import com.Rishikesh.BookingService.modal.Booking;
+import com.Rishikesh.BookingService.modal.SalonReport;
 import com.Rishikesh.BookingService.payload.*;
 import com.Rishikesh.BookingService.service.BookingService;
 import com.Rishikesh.BookingService.service.impl.BookingServiceImpl;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +34,8 @@ public class BookingController {
 
         SalonDTO salonDTO = new SalonDTO();
         salonDTO.setId(salonId);
+        salonDTO.setOpenTime(LocalTime.of(9, 0));   // 9:00 AM
+        salonDTO.setCloseTime(LocalTime.of(21, 0)); // 9:00 PM
 
         Set<ServiceDTO> serviceDTOSet = new HashSet<>();
 
@@ -89,10 +93,25 @@ public class BookingController {
     }
 
     @GetMapping("/slots/salon/{salonId}/date/{date}")
-    public ResponseEntity<Set<BookingDTO>> getBookedSlot(@RequestParam LocalDate date, @PathVariable Long salonId) throws Exception {
+    public ResponseEntity<List<BookingSlotDTO>> getBookedSlot(@RequestParam(required = false) LocalDate date, @PathVariable Long salonId) throws Exception {
 
         List<Booking> bookings = bookingService.getBookingsByDate(date, salonId);
 
-        return ResponseEntity.ok(getBookingDTOs(bookings));
+        List<BookingSlotDTO> slotsDTOs = bookings.stream().map(booking -> {
+            BookingSlotDTO slotDTO = new BookingSlotDTO();
+            slotDTO.setStartTime(booking.getStartTime());
+            slotDTO.setEndTime(booking.getEndTime());
+            return slotDTO;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(slotsDTOs);
+    }
+
+    @GetMapping("/report")
+    public ResponseEntity<SalonReport> getSalonReport() throws Exception {
+
+       SalonReport report = bookingService.getSalonreport(1L);
+
+        return ResponseEntity.ok(report);
     }
 }
