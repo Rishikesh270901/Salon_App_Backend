@@ -9,14 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="User-Service" />
       </profile>
-      <profile name="Annotation profile for BookingService" enabled="true">
+      <profile name="Annotation profile for PaymentService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
-        <module name="BookingService" />
+        <module name="PaymentService" />
       </profile>
       <profile name="Annotation profile for ServiceOfferingService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -26,6 +26,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
+        <module name="BookingService" />
         <module name="CategoryService" />
         <module name="SalonService" />
         <module name="ServiceOfferingService" />
@@ -36,6 +37,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="BookingService" options="-parameters" />
       <module name="CategoryService" options="-parameters" />
+      <module name="PaymentService" options="-parameters" />
       <module name="SalonService" options="-parameters" />
       <module name="ServiceOfferingService" options="-parameters" />
       <module name="User-Service" options="-parameters" />
