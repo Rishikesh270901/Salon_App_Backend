@@ -124,9 +124,9 @@ services:
   user:
     image: "rishikesh270901/salon-user-service:v1.0"
     ports:
-      - "8080:8080"
+      - "8087:8087"
     healthcheck:
-      test: "curl --fail --silent user:8080/actuator/health/readiness | grep UP || exist 1"
+      test: "curl --fail --silent user:8087/actuator/health/readiness | grep UP || exist 1"
       interval: 10s
       timeout: 5s
       retries: 10
